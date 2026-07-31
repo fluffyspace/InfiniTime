@@ -75,6 +75,7 @@ namespace Pinetime {
       void Register(Pinetime::Controllers::SimpleWeatherService* weatherService);
       void Register(Pinetime::Controllers::MusicService* musicService);
       void Register(Pinetime::Controllers::NavigationService* NavigationService);
+      void Register(Pinetime::Controllers::ShortcutService* shortcutService);
 
     private:
       TaskHandle_t taskHandle;

@@ -19,6 +19,7 @@ namespace Pinetime {
       TimerHandle_t buttonTimer;
       bool buttonPressed = false;
       States state = States::Idle;
+      uint8_t clickCount = 0;
     };
   }
 }

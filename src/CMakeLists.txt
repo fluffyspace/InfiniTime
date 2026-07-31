@@ -393,6 +393,7 @@ list(APPEND SOURCE_FILES
         displayapp/screens/Steps.cpp
         displayapp/screens/Timer.cpp
         displayapp/screens/Dice.cpp
+        displayapp/screens/Shortcuts.cpp
         displayapp/screens/PassKey.cpp
         displayapp/screens/Error.cpp
         displayapp/screens/Alarm.cpp
@@ -459,6 +460,7 @@ list(APPEND SOURCE_FILES
         components/ble/AlertNotificationService.cpp
         components/ble/MusicService.cpp
         components/ble/SimpleWeatherService.cpp
+        components/ble/ShortcutService.cpp
         components/ble/NavigationService.cpp
         components/ble/BatteryInformationService.cpp
         components/ble/FSService.cpp
@@ -530,6 +532,7 @@ list(APPEND RECOVERY_SOURCE_FILES
         components/ble/AlertNotificationService.cpp
         components/ble/MusicService.cpp
         components/ble/SimpleWeatherService.cpp
+        components/ble/ShortcutService.cpp
         components/ble/BatteryInformationService.cpp
         components/ble/FSService.cpp
         components/ble/ImmediateAlertService.cpp
@@ -618,6 +621,7 @@ set(INCLUDE_FILES
         displayapp/screens/Motion.h
         displayapp/screens/Timer.h
         displayapp/screens/Dice.h
+        displayapp/screens/Shortcuts.h
         displayapp/screens/Alarm.h
         displayapp/Colors.h
         displayapp/widgets/Counter.h
@@ -658,6 +662,7 @@ set(INCLUDE_FILES
         components/ble/HeartRateService.h
         components/ble/MotionService.h
         components/ble/SimpleWeatherService.h
+        components/ble/ShortcutService.h
         components/settings/Settings.h
         components/timer/Timer.h
         components/stopwatch/StopWatchController.h

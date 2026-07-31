@@ -143,6 +143,7 @@ void SystemTask::Work() {
   displayApp.Register(&nimbleController.weather());
   displayApp.Register(&nimbleController.music());
   displayApp.Register(&nimbleController.navigation());
+  displayApp.Register(&nimbleController.shortcut());
   displayApp.Start(bootError);
 
   heartRateSensor.Init();
@@ -485,6 +486,9 @@ void SystemTask::HandleButtonAction(Controllers::ButtonActions action) {
       break;
     case Actions::DoubleClick:
       displayApp.PushMessage(Applications::Display::Messages::ButtonDoubleClicked);
+      break;
+    case Actions::TripleClick:
+      displayApp.PushMessage(Applications::Display::Messages::ButtonTripleClicked);
       break;
     case Actions::LongPress:
       displayApp.PushMessage(Applications::Display::Messages::ButtonLongPressed);

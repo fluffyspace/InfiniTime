@@ -28,6 +28,7 @@
 #include "displayapp/screens/Steps.h"
 #include "displayapp/screens/Dice.h"
 #include "displayapp/screens/Weather.h"
+#include "displayapp/screens/Shortcuts.h"
 #include "displayapp/screens/PassKey.h"
 #include "displayapp/screens/Error.h"
 #include "displayapp/screens/Calculator.h"
@@ -128,6 +129,7 @@ DisplayApp::DisplayApp(Drivers::St7789& lcd,
                  nullptr,
                  this,
                  lvgl,
+                 nullptr,
                  nullptr,
                  nullptr} {
 }
@@ -474,6 +476,11 @@ void DisplayApp::Refresh() {
           LoadNewScreen(Apps::Notifications, DisplayApp::FullRefreshDirections::Down);
         }
         break;
+      case Messages::ButtonTripleClicked:
+        if (currentApp != Apps::Shortcuts) {
+          LoadNewScreen(Apps::Shortcuts, DisplayApp::FullRefreshDirections::Down);
+        }
+        break;
 
       case Messages::BleFirmwareUpdateStarted:
         LoadNewScreen(Apps::FirmwareUpdate, DisplayApp::FullRefreshDirections::Down);
@@ -730,6 +737,10 @@ void DisplayApp::Register(Pinetime::Controllers::MusicService* musicService) {
 
 void DisplayApp::Register(Pinetime::Controllers::NavigationService* NavigationService) {
   this->controllers.navigationService = NavigationService;
+}
+
+void DisplayApp::Register(Pinetime::Controllers::ShortcutService* shortcutService) {
+  this->controllers.shortcutService = shortcutService;
 }
 
 void DisplayApp::ApplyBrightness() {
