@@ -56,6 +56,10 @@ namespace Pinetime {
       bool ShouldRaiseWake() const;
       bool ShouldLowerSleep() const;
 
+      // Angle (in degrees) rotated between two gravity-vector samples on a given axis pair.
+      // Only returns meaningful values if inputs are acceleration due to gravity.
+      static int16_t DegreesRolled(int16_t a, int16_t b, int16_t prevA, int16_t prevB);
+
       int32_t CurrentShakeSpeed() const {
         return accumulatedSpeed;
       }

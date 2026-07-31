@@ -10,29 +10,28 @@ namespace {
   constexpr inline int32_t Clamp(int32_t val, int32_t min, int32_t max) {
     return val < min ? min : (val > max ? max : val);
   }
+}
 
-  // only returns meaningful values if inputs are acceleration due to gravity
-  int16_t DegreesRolled(int16_t y, int16_t z, int16_t prevY, int16_t prevZ) {
-    int16_t prevYAngle = Pinetime::Utility::Asin(Clamp(prevY * 32, -32767, 32767));
-    int16_t yAngle = Pinetime::Utility::Asin(Clamp(y * 32, -32767, 32767));
+int16_t MotionController::DegreesRolled(int16_t a, int16_t b, int16_t prevA, int16_t prevB) {
+  int16_t prevAAngle = Pinetime::Utility::Asin(Clamp(prevA * 32, -32767, 32767));
+  int16_t aAngle = Pinetime::Utility::Asin(Clamp(a * 32, -32767, 32767));
 
-    if (z < 0 && prevZ < 0) {
-      return yAngle - prevYAngle;
-    }
-    if (prevZ < 0) {
-      if (y < 0) {
-        return -prevYAngle - yAngle - 180;
-      }
-      return -prevYAngle - yAngle + 180;
-    }
-    if (z < 0) {
-      if (y < 0) {
-        return prevYAngle + yAngle + 180;
-      }
-      return prevYAngle + yAngle - 180;
-    }
-    return prevYAngle - yAngle;
+  if (b < 0 && prevB < 0) {
+    return aAngle - prevAAngle;
   }
+  if (prevB < 0) {
+    if (a < 0) {
+      return -prevAAngle - aAngle - 180;
+    }
+    return -prevAAngle - aAngle + 180;
+  }
+  if (b < 0) {
+    if (a < 0) {
+      return prevAAngle + aAngle + 180;
+    }
+    return prevAAngle + aAngle - 180;
+  }
+  return prevAAngle - aAngle;
 }
 
 void MotionController::AdvanceDay() {
