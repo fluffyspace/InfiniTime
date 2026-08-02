@@ -46,6 +46,7 @@ namespace Pinetime {
       struct Shortcut {
         uint8_t id;
         Name name;
+        bool closeOnTrigger;
       };
 
       [[nodiscard]] const std::array<std::optional<Shortcut>, MaxShortcuts>& GetShortcuts() const {

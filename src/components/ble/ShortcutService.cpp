@@ -7,7 +7,7 @@
 using namespace Pinetime::Controllers;
 
 namespace {
-  int ShortcutTriggerCallback(uint16_t /*connHandle*/, uint16_t /*attrHandle*/, struct ble_gatt_access_ctxt* ctxt, void* arg) {
+  int ShortcutTriggerCallback(uint16_t /*connHandle*/, uint16_t /*attrHandle*/, struct ble_gatt_access_ctxt* ctxt, void* /*arg*/) {
     // Read-back is not meaningful for a trigger characteristic; report "no shortcut" (0).
     uint8_t buffer[1] = {0};
     int res = os_mbuf_append(ctxt->om, buffer, 1);
@@ -73,8 +73,9 @@ void ShortcutService::UnsubscribeNotification(uint16_t attributeHandle) {
 
 int ShortcutService::OnShortcutListWrite(struct ble_gatt_access_ctxt* ctxt) {
   static constexpr size_t headerSize = 3; // messageType, version, count
-  static constexpr size_t entryHeaderSize = 2; // id, nameLen
+  static constexpr size_t entryHeaderSize = 3; // id, nameLen, flags
   static constexpr size_t maxMessageSize = headerSize + MaxShortcuts * (entryHeaderSize + MaxNameLength);
+  static constexpr uint8_t flagCloseOnTrigger = 0x01;
 
   size_t messageSize = OS_MBUF_PKTLEN(ctxt->om);
   if (messageSize < headerSize || messageSize > maxMessageSize) {
@@ -87,7 +88,7 @@ int ShortcutService::OnShortcutListWrite(struct ble_gatt_access_ctxt* ctxt) {
 
   uint8_t messageType = buffer[0];
   uint8_t version = buffer[1];
-  if (messageType != 0 || version != 0) {
+  if (messageType != 0 || version != 1) {
     NRF_LOG_INFO("Shortcut list : unsupported messageType=%d version=%d", messageType, version);
     return 0;
   }
@@ -102,6 +103,7 @@ int ShortcutService::OnShortcutListWrite(struct ble_gatt_access_ctxt* ctxt) {
     }
     uint8_t id = buffer[offset];
     uint8_t nameLen = std::min(buffer[offset + 1], MaxNameLength);
+    uint8_t flags = buffer[offset + 2];
     offset += entryHeaderSize;
 
     if (offset + nameLen > messageSize) {
@@ -113,7 +115,7 @@ int ShortcutService::OnShortcutListWrite(struct ble_gatt_access_ctxt* ctxt) {
     name[nameLen] = '\0';
     offset += nameLen;
 
-    newShortcuts[i] = Shortcut {id, name};
+    newShortcuts[i] = Shortcut {id, name, (flags & flagCloseOnTrigger) != 0};
   }
 
   shortcuts = newShortcuts;

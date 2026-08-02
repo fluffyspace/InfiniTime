@@ -44,6 +44,7 @@ namespace Pinetime {
 
         std::array<lv_obj_t*, MaxDisplayed> buttons {};
         std::array<uint8_t, MaxDisplayed> buttonShortcutIds {};
+        std::array<bool, MaxDisplayed> buttonCloseOnTrigger {};
         uint8_t buttonCount = 0;
 
         void FireGesture(GestureDirection direction);

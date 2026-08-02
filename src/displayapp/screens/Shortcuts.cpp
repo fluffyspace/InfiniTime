@@ -37,6 +37,7 @@ Shortcuts::Shortcuts(Controllers::ShortcutService& shortcutService,
     if (shortcut.has_value()) {
       selectedShortcuts[buttonCount] = &shortcut.value();
       buttonShortcutIds[buttonCount] = shortcut->id;
+      buttonCloseOnTrigger[buttonCount] = shortcut->closeOnTrigger;
       buttonCount++;
     }
   }
@@ -100,6 +101,10 @@ void Shortcuts::OnButtonEvent(lv_obj_t* object) {
   for (uint8_t i = 0; i < buttonCount; i++) {
     if (object == buttons[i]) {
       shortcutService.Trigger(buttonShortcutIds[i]);
+      if (buttonCloseOnTrigger[i]) {
+        running = false;
+        return;
+      }
       HighlightButton(i);
       return;
     }
@@ -121,6 +126,10 @@ void Shortcuts::FireGesture(GestureDirection direction) {
   }
   shortcutService.Trigger(buttonShortcutIds[index]);
   motorController.RunForDuration(20);
+  if (buttonCloseOnTrigger[index]) {
+    running = false;
+    return;
+  }
   HighlightButton(index);
   gestureArmed = false;
 }
