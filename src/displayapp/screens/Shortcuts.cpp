@@ -162,8 +162,8 @@ void Shortcuts::Refresh() {
   }
 
   const std::array<bool, 4> active {
-    pitch < -gestureThresholdDegrees,
-    pitch > gestureThresholdDegrees,
+    pitch > gestureThresholdDegrees, // TiltUp: wrist tilted away from the wearer
+    pitch < -gestureThresholdDegrees, // TiltDown: wrist tilted toward the wearer
     roll < -gestureThresholdDegrees,
     roll > gestureThresholdDegrees,
   };
