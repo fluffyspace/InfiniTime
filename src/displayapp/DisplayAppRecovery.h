@@ -38,6 +38,7 @@ namespace Pinetime {
     class SimpleWeatherService;
     class MusicService;
     class NavigationService;
+    class ShortcutService;
   }
 
   namespace System {
